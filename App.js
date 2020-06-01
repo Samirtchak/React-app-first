@@ -6,9 +6,11 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [courseGoal, setCourseGoal] = useState([]);
+  const [visibility,setVisibility] = useState(false);
 
   const handlePress = (goalTitle) => {
     setCourseGoal(currentGoals => [...currentGoals, {id:Math.random().toString(), value:goalTitle}]);
+    setVisibility(false);
   };
 
   const deleteItem = (goalId) => {
@@ -17,10 +19,19 @@ export default function App() {
     })
   }
 
+  const handleCancel = () => {
+    setVisibility(false);
+  }
+
   return (
 
     <View style={styles.screen}>
-      <GoalInput onAddGoal={handlePress}/>
+      <Button title="ADD new Goal" onPress={() => setVisibility(true)}/>
+      <GoalInput
+          visible={visibility}
+          onAddGoal={handlePress}
+          onCancel={handleCancel}
+      />
 
       <FlatList
           keyExtractor={(item, index) => item.id}
